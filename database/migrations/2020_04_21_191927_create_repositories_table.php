@@ -16,6 +16,7 @@ class CreateRepositoriesTable extends Migration
             $table->string('drone_link');
             $table->string('git_link');
 
+            $table->boolean('active')->default(false);
             $table->string('token', 64)->nullable();
             $table->unsignedInteger('threshold')->nullable();
 
