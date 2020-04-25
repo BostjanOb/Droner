@@ -12,7 +12,8 @@ use Tests\TestCase;
 
 class SyncRepositoriesTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     /** @test */
     public function throwExceptionWhenRequestFails()
