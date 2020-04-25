@@ -15,14 +15,9 @@ class RepositoryPolicy
         //
     }
 
-    public function view(User $user, Repository $repository)
+    public function view(User $user, Repository $repository): bool
     {
-        //
-    }
-
-    public function create(User $user)
-    {
-        //
+        return $user->repositories()->where('id', $repository->id)->exists();
     }
 
     public function update(User $user, Repository $repository)
@@ -31,16 +26,6 @@ class RepositoryPolicy
     }
 
     public function delete(User $user, Repository $repository)
-    {
-        //
-    }
-
-    public function restore(User $user, Repository $repository)
-    {
-        //
-    }
-
-    public function forceDelete(User $user, Repository $repository)
     {
         //
     }

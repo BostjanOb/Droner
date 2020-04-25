@@ -11,6 +11,10 @@ class Repository extends Model
     protected $guarded = [];
     public $incrementing = false;
 
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);

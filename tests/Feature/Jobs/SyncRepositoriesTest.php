@@ -49,6 +49,13 @@ class SyncRepositoriesTest extends TestCase
                 'link'   => 'https://github.com/NameSpace/Repo2',
                 'active' => true,
             ],
+            [
+                'id'     => 3,
+                'name'   => 'Repo 3',
+                'slug'   => 'NameSpace/Repo3',
+                'link'   => 'https://github.com/NameSpace/Repo3',
+                'active' => false,
+            ],
         ]);
 
         Http::fake([
