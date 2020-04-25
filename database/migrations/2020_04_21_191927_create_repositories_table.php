@@ -13,7 +13,7 @@ class CreateRepositoriesTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
 
             $table->string('name');
-            $table->string('drone_link');
+            $table->string('drone_slug');
             $table->string('git_link');
 
             $table->boolean('active')->default(false);
