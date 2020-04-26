@@ -11,7 +11,14 @@ class RepositoryController extends Controller
 {
     public function index()
     {
-        //
+        return JsonResource::collection(
+            \Auth::user()
+                ->repositories()
+                ->with(['builds' => fn($q) => $q->latest()->limit(1)])
+                ->orderBy('active', 'desc')
+                ->orderBy('created_at', 'desc')
+                ->paginate()
+        );
     }
 
     public function show(Repository $repository)

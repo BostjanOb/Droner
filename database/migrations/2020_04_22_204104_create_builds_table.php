@@ -16,8 +16,8 @@ class CreateBuildsTable extends Migration
 
             $table->timestamp('start_at');
             $table->timestamp('started_at')->nullable();
-            $table->timestamps();
             $table->timestamp('finished_at')->nullable();
+            $table->timestamps();
         });
     }
 

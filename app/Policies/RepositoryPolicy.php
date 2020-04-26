@@ -10,11 +10,6 @@ class RepositoryPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user)
-    {
-        //
-    }
-
     public function view(User $user, Repository $repository): bool
     {
         return $user->repositories()->where('id', $repository->id)->exists();

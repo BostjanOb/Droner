@@ -22,6 +22,8 @@ class CreateRepositoriesTable extends Migration
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(['active', 'token']);
         });
     }
 

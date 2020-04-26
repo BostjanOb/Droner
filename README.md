@@ -12,12 +12,12 @@ Drone CI proxy runner
  
 #### Repositories
 - [x] Enabling / Disabling it for builds (generate token)
-- [ ] Get repository info (with the latest build status)
+- [x] Get repository info (with the latest build status)
 
 #### Builds
-- [ ] Create new build (with deny - depends on a threshold)
+- [x] Create new build (with deny - depends on a threshold)
 - [ ] Send build command to drone
-- [ ] Get build info
+- [x] Get build info
 
 #### Users CRUD
 - [ ] CRUD users

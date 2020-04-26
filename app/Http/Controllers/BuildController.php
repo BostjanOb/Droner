@@ -3,83 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Build;
+use App\Repository;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class BuildController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Repository $repository)
     {
-        //
+        $this->authorize('view', $repository);
+
+        return JsonResource::collection(
+            $repository->builds()->latest()->paginate()
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(Repository $repository)
     {
-        //
-    }
+        $this->authorize('view', $repository);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Build  $build
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Build $build)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Build  $build
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Build $build)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Build  $build
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Build $build)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Build  $build
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Build $build)
-    {
-        //
+        return JsonResource::make($repository->newBuild());
     }
 }

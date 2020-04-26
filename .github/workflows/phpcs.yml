@@ -3,7 +3,7 @@ name: Code Style
 on: [push]
 
 jobs:
-  tests:
+  codestyle:
     runs-on: ubuntu-latest
 
     steps:

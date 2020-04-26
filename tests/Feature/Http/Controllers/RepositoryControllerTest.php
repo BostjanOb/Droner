@@ -13,6 +13,35 @@ class RepositoryControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
+    public function unauthenticatedUserCannotViewRepositories()
+    {
+        $this->getJson('/api/repositories')
+            ->assertUnauthorized();
+    }
+
+    /** @test */
+    public function indexReturnsPaginatedResult()
+    {
+        $user = factory(User::class)->create();
+        $repositories = factory(Repository::class, 5)->create();
+        $user->repositories()->sync($repositories->pluck('id'));
+
+        $this->actingAs($user)
+            ->getJson('/api/repositories')
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => ['id', 'name', 'drone_slug', 'git_link', 'active'],
+                ],
+                'meta' => [
+                    'current_page',
+                    'per_page',
+                    'total',
+                ],
+            ]);
+    }
+
+    /** @test */
     public function notAssignedUserCannotViewRepository()
     {
         $repository = factory(Repository::class)->create();
@@ -30,7 +59,7 @@ class RepositoryControllerTest extends TestCase
     {
         $user = factory(User::class)->create();
         $repository = factory(Repository::class)->create();
-        $user->repositories()->sync([$repository->id]);
+        $user->repositories()->attach($repository);
 
         $this->actingAs($user)
             ->getJson('/api/repositories/' . $repository->id)
@@ -58,7 +87,7 @@ class RepositoryControllerTest extends TestCase
     {
         $user = factory(User::class)->create();
         $repository = factory(Repository::class)->create();
-        $user->repositories()->sync([$repository->id]);
+        $user->repositories()->attach($repository);
 
         $response = $this->actingAs($user)
             ->putJson('/api/repositories/' . $repository->id, ['active' => true, 'threshold' => 5])
@@ -94,7 +123,7 @@ class RepositoryControllerTest extends TestCase
             'threshold' => 5,
             'token'     => $token,
         ]);
-        $user->repositories()->sync([$repository->id]);
+        $user->repositories()->attach($repository);
 
         $this->actingAs($user)
             ->putJson('/api/repositories/' . $repository->id, ['active' => true, 'threshold' => 15])
