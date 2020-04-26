@@ -20,13 +20,25 @@ class RepositoryPolicy
         return $user->repositories()->where('id', $repository->id)->exists();
     }
 
-    public function update(User $user, Repository $repository)
+    public function update(User $user, Repository $repository): bool
     {
-        //
+        if ($user->repositories()->where('id', $repository->id)->exists()
+            && ($repository->user_id === $user->id || $repository->user_id === null)
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
     public function delete(User $user, Repository $repository)
     {
-        //
+        if ($user->repositories()->where('id', $repository->id)->exists()
+            && $repository->user_id === $user->id
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -11,7 +11,7 @@ Drone CI proxy runner
 - [x] Remove repositories from users (if removed)
  
 #### Repositories
-- [ ] Enabling / Disabling it for builds (generate token)
+- [x] Enabling / Disabling it for builds (generate token)
 - [ ] Get repository info (with the latest build status)
 
 #### Builds

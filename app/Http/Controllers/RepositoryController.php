@@ -21,7 +21,7 @@ class RepositoryController extends Controller
         return JsonResource::make($repository);
     }
 
-    public function update(Request $request, Repository $repository)
+    public function update(Repository $repository, Request $request)
     {
         $this->authorize('update', $repository);
 
@@ -32,8 +32,9 @@ class RepositoryController extends Controller
 
         $repository->fill($data);
 
-        if ($repository->active && $repository->token === null) {
-            $repository->token = hash('sha256', Str::random(80));
+        if ($repository->active) {
+            $repository->user_id ??= \Auth::id();
+            $repository->token ??= hash('sha256', Str::random(80));
         }
 
         $repository->save();

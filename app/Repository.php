@@ -12,7 +12,8 @@ class Repository extends Model
     public $incrementing = false;
 
     protected $casts = [
-        'active' => 'boolean',
+        'user_id' => 'int',
+        'active'  => 'boolean',
     ];
 
     public function users(): BelongsToMany
