@@ -33,11 +33,11 @@ class Repository extends Model
     {
         abort_unless($this->active, Response::HTTP_FORBIDDEN, 'Repository is not activated');
 
-        $lastBuild = $this->builds()->first();
+        $lastBuild = $this->builds()->where('status', Build::STATUS_CREATED)->first();
         abort_if($lastBuild !== null && now() < $lastBuild->start_at, Response::HTTP_TOO_MANY_REQUESTS);
 
         return $this->builds()->create([
-            'status'   => 'created',
+            'status'   => Build::STATUS_CREATED,
             'start_at' => now()->addMinutes($this->threshold),
         ]);
     }

@@ -36,7 +36,7 @@ class RepositoryTest extends TestCase
 
         factory(Build::class)->create([
             'repository_id' => $repository->id,
-            'status'        => 'created',
+            'status'        => Build::STATUS_CREATED,
             'start_at'      => now()->addMinutes(2),
         ]);
 
@@ -69,8 +69,24 @@ class RepositoryTest extends TestCase
 
         factory(Build::class)->create([
             'repository_id' => $repository->id,
-            'status'        => 'created',
+            'status'        => Build::STATUS_CREATED,
             'start_at'      => now()->subMinute(),
+        ]);
+
+        $build = $repository->newBuild();
+
+        $this->assertInstanceOf(Build::class, $build);
+    }
+
+    /** @test */
+    public function createNewBuildIfStatusNotCreated()
+    {
+        $repository = factory(Repository::class)->create(['active' => true, 'threshold' => 10]);
+
+        factory(Build::class)->create([
+            'repository_id' => $repository->id,
+            'status'        => Build::STATUS_SUCCESS,
+            'start_at'      => now()->addMinutes(2),
         ]);
 
         $build = $repository->newBuild();
