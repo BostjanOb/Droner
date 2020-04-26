@@ -2,7 +2,6 @@
 
 namespace Test\Feature\Http\Controllers;
 
-
 use App\Repository;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -159,5 +158,4 @@ class RepositoryControllerTest extends TestCase
             'token'     => null,
         ]);
     }
-
 }

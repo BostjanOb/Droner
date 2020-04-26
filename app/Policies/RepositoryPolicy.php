@@ -22,7 +22,8 @@ class RepositoryPolicy
 
     public function update(User $user, Repository $repository): bool
     {
-        if ($user->repositories()->where('id', $repository->id)->exists()
+        if (
+            $user->repositories()->where('id', $repository->id)->exists()
             && ($repository->user_id === $user->id || $repository->user_id === null)
         ) {
             return true;
@@ -33,7 +34,8 @@ class RepositoryPolicy
 
     public function delete(User $user, Repository $repository)
     {
-        if ($user->repositories()->where('id', $repository->id)->exists()
+        if (
+            $user->repositories()->where('id', $repository->id)->exists()
             && $repository->user_id === $user->id
         ) {
             return true;
