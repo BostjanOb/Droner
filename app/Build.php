@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\Drone;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -20,7 +21,7 @@ class Build extends Model
         'running'                 => self::STATUS_RUNNING,
 
         'success' => self::STATUS_SUCCESS,
-        
+
         'failure'  => self::STATUS_FAILURE,
         'killed'   => self::STATUS_FAILURE,
         'error'    => self::STATUS_FAILURE,
@@ -40,5 +41,24 @@ class Build extends Model
     public function repository(): BelongsTo
     {
         return $this->belongsTo(Repository::class);
+    }
+
+    public function sendToDrone()
+    {
+        if ($this->status != self::STATUS_CREATED) {
+            throw new \Exception('Only created builds can be send to drone.');
+        }
+
+        if ($this->start_at > now()) {
+            throw new \Exception('Build not yet scheduled to be send.');
+        }
+
+        $droneBuild = (new Drone($this->repository->owner->drone_token))->triggerBuild($this->repository->drone_slug);
+        $this->status = self::STATUS_SEND;
+        $this->drone_id = $droneBuild['id'];
+        $this->started_at = $droneBuild['created'];
+        $this->save();
+
+        return $this;
     }
 }

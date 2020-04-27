@@ -11,6 +11,7 @@ class CreateBuildsTable extends Migration
         Schema::create('builds', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('repository_id');
+            $table->unsignedBigInteger('drone_id')->nullable();
 
             $table->string('status');
 
