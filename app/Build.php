@@ -46,11 +46,11 @@ class Build extends Model
     public function sendToDrone()
     {
         if ($this->status != self::STATUS_CREATED) {
-            throw new \Exception('Only created builds can be send to drone.');
+            throw new \Exception('Only created builds can be send to drone.', 1);
         }
 
         if ($this->start_at > now()) {
-            throw new \Exception('Build not yet scheduled to be send.');
+            throw new \Exception('Build not yet scheduled to be send.', 2);
         }
 
         $droneBuild = (new Drone($this->repository->owner->drone_token))->triggerBuild($this->repository->drone_slug);
