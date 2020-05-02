@@ -16,8 +16,10 @@ Drone CI proxy runner
 
 #### Builds
 - [x] Create new build (with deny - depends on a threshold)
-- [ ] Send build command to drone
+- [x] Send build command to drone
 - [x] Get build info
+- [ ] Webhook for drone changes (build)
+- [ ] Option for pulling status of builds
 
 #### Users CRUD
 - [ ] CRUD users
