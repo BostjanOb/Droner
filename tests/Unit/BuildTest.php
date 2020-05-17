@@ -37,7 +37,7 @@ class BuildTest extends TestCase
     }
 
     /** @test */
-    public function sendToDroneMakeRequestAnd()
+    public function sendToDroneMakeRequestAndSavesData()
     {
         $time = Carbon::createFromTimestamp(1588023013);
         $build = factory(Build::class)->create([
@@ -47,16 +47,81 @@ class BuildTest extends TestCase
         ]);
 
         Http::fake([
-            '*' => Http::response(json_encode(['id' => 1, 'status' => 'pending', 'created' => $time->timestamp]), 200),
+            '*' => Http::response(json_encode(['number' => 1, 'status' => 'pending', 'created' => $time->timestamp]), 200),
         ]);
 
         $build->sendToDrone();
 
         $this->assertDatabaseHas('builds', [
-            'id'         => $build->id,
-            'drone_id'   => 1,
-            'status'     => Build::STATUS_SEND,
-            'started_at' => $time,
+            'id'           => $build->id,
+            'drone_number' => 1,
+            'status'       => Build::STATUS_SEND,
+            'send_at'      => $time,
         ]);
+    }
+
+    /** @test */
+    public function updateStatusFromDroneDoNotDoAnythingWhenStatusIsCompleted()
+    {
+        Http::assertNothingSent();
+
+        factory(Build::class)
+            ->create(['status' => Build::STATUS_CREATED])
+            ->updateStatusFromDrone();
+
+        factory(Build::class)
+            ->create(['status' => Build::STATUS_FAILURE])
+            ->updateStatusFromDrone();
+
+        factory(Build::class)
+            ->create(['status' => Build::STATUS_SUCCESS])
+            ->updateStatusFromDrone();
+    }
+
+    /** @test */
+    public function updateStatusFromDroneAndDontSetFinishedWhenStatusIsStillToCheck()
+    {
+        Http::fake([
+            '*' => Http::response(json_encode(['number' => 1, 'status' => 'pending']), 200),
+        ]);
+
+        $build = factory(Build::class)->create(['status' => Build::STATUS_SEND, 'drone_number' => 1]);
+
+        $build->updateStatusFromDrone();
+
+        $this->assertEquals(Build::STATUS_SEND, $build->status);
+        $this->assertNull($build->finished_at);
+    }
+
+    /** @test */
+    public function updateStatusFromDroneAndSetNewStatusAndStartedDate()
+    {
+        Http::fake([
+            '*' => Http::response(json_encode(['number' => 1, 'status' => 'running', 'started' => 1564085874]), 200),
+        ]);
+
+        $build = factory(Build::class)->create(['status' => Build::STATUS_SEND, 'drone_number' => 1]);
+
+        $build->updateStatusFromDrone();
+
+        $this->assertEquals(Build::STATUS_RUNNING, $build->status);
+        $this->assertEquals(1564085874, $build->started_at->timestamp);
+        $this->assertNull($build->finished_at);
+    }
+
+    /** @test */
+    public function updateStatusFromDroneAndSetFinishedAtWhenBuildIsComplete()
+    {
+        Http::fake([
+            '*' => Http::response(json_encode(['number' => 1, 'status' => 'success', 'started' => 1564085874, 'finished' => 1564086343]), 200),
+        ]);
+
+        $build = factory(Build::class)->create(['status' => Build::STATUS_RUNNING, 'drone_number' => 1]);
+
+        $build->updateStatusFromDrone();
+
+        $this->assertEquals(Build::STATUS_SUCCESS, $build->status);
+        $this->assertEquals(1564085874, $build->started_at->timestamp);
+        $this->assertEquals(1564086343, $build->finished_at->timestamp);
     }
 }

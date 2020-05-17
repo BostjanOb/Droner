@@ -14,24 +14,22 @@ class Drone
     public function __construct(string $token)
     {
         $this->token = $token;
-        $this->url = env('DRONE_URL');
+        $this->url = config('droner.drone_url');
     }
 
     public function userRepositories(): Collection
     {
-        $response = Http::withToken($this->token)
-            ->get($this->url . '/api/user/repos');
-
-        if (!$response->successful()) {
-            throw new \Exception($response->body(), $response->status());
-        }
-
         return collect($this->callDroneApi('get', 'user/repos'))->filter(fn($r) => $r['active']);
     }
 
-    public function triggerBuild(string $slug): array
+    public function triggerBuild(string $repoSlug): array
     {
-        return $this->callDroneApi('post', "repos/{$slug}/builds");
+        return $this->callDroneApi('post', "repos/{$repoSlug}/builds");
+    }
+
+    public function buildInfo(string $repoSlug, int $buildNumber): array
+    {
+        return $this->callDroneApi('get', "repos/$repoSlug/builds/$buildNumber");
     }
 
     private function callDroneApi(string $method, string $endpoint, array $params = [])

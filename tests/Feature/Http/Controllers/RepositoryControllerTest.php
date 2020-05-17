@@ -86,7 +86,7 @@ class RepositoryControllerTest extends TestCase
     public function enableRepositoryAssignUserAndGenerateToken()
     {
         $user = factory(User::class)->create();
-        $repository = factory(Repository::class)->create();
+        $repository = factory(Repository::class)->create(['user_id' => null]);
         $user->repositories()->attach($repository);
 
         $response = $this->actingAs($user)

@@ -11,13 +11,16 @@ class CreateBuildsTable extends Migration
         Schema::create('builds', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('repository_id');
-            $table->unsignedBigInteger('drone_id')->nullable();
+            $table->unsignedBigInteger('drone_number')->nullable();
 
             $table->string('status');
 
             $table->timestamp('start_at');
+
+            $table->timestamp('send_at')->nullable();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('finished_at')->nullable();
+
             $table->timestamps();
         });
     }
