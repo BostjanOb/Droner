@@ -1,0 +1,23 @@
+@tailwind base;
+
+@tailwind components;
+
+a,
+button {
+    transition: all linear 150ms;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spin {
+    animation: spin 2s linear infinite;
+}
+
+@tailwind utilities;
