@@ -9,15 +9,15 @@
 
     <title>{{ config('app.name', 'Droner') }}</title>
 
-    <!-- Scripts -->
-{{--    <script src="{{ mix('js/app.js') }}" defer></script>--}}
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @livewireStyles
+
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 </head>
 <body class="bg-gray-100 text-gray-900 font-sans">
     @auth
@@ -25,7 +25,7 @@
         <div class="container flex h-16 items-center">
 
             <div class="flex-1">
-                <span class="uppercase font-light text-lg">Droner</span>
+                <a href="/" class="uppercase font-light text-lg">Droner</a>
             </div>
 
             <div>
@@ -38,5 +38,7 @@
     @endauth
 
     @yield('content')
+
+    @livewireScripts
 </body>
 </html>

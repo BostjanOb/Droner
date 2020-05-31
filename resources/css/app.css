@@ -7,6 +7,10 @@ button {
     transition: all linear 150ms;
 }
 
+svg {
+    @apply fill-current;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
