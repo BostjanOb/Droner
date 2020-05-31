@@ -11,6 +11,10 @@ Route::middleware(['auth'])->group(function () {
         return view('index');
     })->name('index');
 
+    Route::get('/repo/{id}', function ($id) {
+        return view('repo.show');
+    })->name('repo.show');
+
     Route::get('/users', function () {
         return view('index');
     })->name('users');

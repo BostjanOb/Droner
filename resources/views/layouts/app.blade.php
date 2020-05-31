@@ -20,6 +20,23 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-100 text-gray-900 font-sans">
+    @auth
+    <nav class="bg-blue-900 text-blue-100">
+        <div class="container flex h-16 items-center">
+
+            <div class="flex-1">
+                <span class="uppercase font-light text-lg">Droner</span>
+            </div>
+
+            <div>
+                <button class="rounded-full">
+                    <img class="h-8 w-8 rounded-full" src="https://www.gravatar.com/avatar/{{ md5(\Auth::user()->email) }}?s=256" alt="" />
+                </button>
+            </div>
+        </div>
+    </nav>
+    @endauth
+
     @yield('content')
 </body>
 </html>
