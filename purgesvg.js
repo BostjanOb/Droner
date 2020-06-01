@@ -20,7 +20,10 @@ module.exports = {
       'cog',
       'hourglass-half',
       'exclamation-circle',
-      'sync'
+      'save',
+      'sync',
+      'pencil-alt',
+      'times'
     ]
   }
 }

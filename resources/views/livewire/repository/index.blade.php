@@ -26,7 +26,8 @@
         @endif
 
         @foreach($repositories as $repo)
-            <a @if($repo->token !== null) href="{{ route('repo.show', ['id' => $repo->id]) }}" @endif class="flex items-center bg-white shadow-lg rounded-lg p-4 hover:shadow-xl @if($repo->token === null) text-gray-500 @endif">
+            <a @if($repo->token !== null) href="{{ route('repo.show', ['repo' => $repo]) }}"
+               @endif class="flex items-center bg-white shadow-lg rounded-lg p-4 hover:shadow-xl @if($repo->token === null) text-gray-500 @endif">
                 <div>
                     @if($repo->token === null)
                         <x-icon icon="git-alt" size="8"></x-icon>
@@ -71,7 +72,7 @@
 
                 @if($repo->token === null)
                     <div class="flex-1 text-right">
-                        <button @click="isDialogOpen = true"
+                        <button wire:click="activate({{ $repo->id }})"
                                 class="uppercase font-semibold text-lg text-blue-800 px-4 py-1 rounded hover:bg-blue-100">
                             Activate
                         </button>

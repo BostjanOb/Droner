@@ -7,15 +7,12 @@ Route::namespace('App\Http\Controllers')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () {
-        return view('index');
-    })->name('index');
+    Route::livewire('/', 'repository.index')
+        ->name('index');
 
-    Route::get('/repo/{id}', function ($id) {
-        return view('repo.show');
-    })->name('repo.show');
+    Route::livewire('/repo/{repo}/edit', 'repository.edit')
+        ->name('repo.edit');
 
-    Route::get('/users', function () {
-        return view('index');
-    })->name('users');
+    Route::livewire('/repo/{repo}', 'repository.show')
+        ->name('repo.show');
 });

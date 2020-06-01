@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Repository;
 
 use App\Jobs\SyncRepositories;
 use App\Repository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
-class RepositoryList extends Component
+class Index extends Component
 {
     public $repositories;
 
@@ -23,6 +24,20 @@ class RepositoryList extends Component
         $this->repositories = Repository::with('latestBuild')->get();
     }
 
+    public function activate($id)
+    {
+        $repo = Repository::findOrFail($id);
+
+        $repo->update([
+            'active'    => true,
+            'threshold' => 5,
+            'user_id'   => \Auth::id(),
+            'token'     => hash('sha256', Str::random(80)),
+        ]);
+
+        return redirect()->route('repo.edit', ['repo' => $repo]);
+    }
+
     public function mount()
     {
         $this->getRepositories();
@@ -30,6 +45,6 @@ class RepositoryList extends Component
 
     public function render()
     {
-        return view('livewire.repository-list');
+        return view('livewire.repository.index');
     }
 }
