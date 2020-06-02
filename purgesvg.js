@@ -11,19 +11,24 @@ module.exports = {
   ],
   whitelist: {
     'regular.svg': [
-      'check-circle'
+      'check-circle',
+      'play-circle',
+      'id-card'
     ],
     'brands.svg': [
       'git-alt'
     ],
     'solid.svg': [
       'cog',
+      'hourglass-start',
       'hourglass-half',
+      'hourglass-end',
       'exclamation-circle',
       'save',
       'sync',
       'pencil-alt',
-      'times'
+      'times',
+      'user'
     ]
   }
 }

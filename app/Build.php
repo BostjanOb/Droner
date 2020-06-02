@@ -50,13 +50,13 @@ class Build extends Model
         return $this->belongsTo(Repository::class);
     }
 
-    public function sendToDrone(): self
+    public function sendToDrone($force = false): self
     {
         if ($this->status != self::STATUS_CREATED) {
             throw new \Exception('Only created builds can be send to drone.', 1);
         }
 
-        if ($this->start_at > now()) {
+        if (!$force && $this->start_at > now()) {
             throw new \Exception('Build not yet scheduled to be send.', 2);
         }
 
