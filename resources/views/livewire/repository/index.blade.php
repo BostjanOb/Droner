@@ -1,14 +1,18 @@
 <div class="container mt-8">
 
-    <div class="flex justify-between items-center my-4">
-        <div class="text-xl">
-            Repositories list
+    <div class="flex items-center justify-between">
+        <div class="flex-1 min-w-0">
+            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:leading-9 sm:truncate">
+                Repositories list
+            </h2>
         </div>
-        <div>
+
+        <div class="mt-5 flex items-center lg:mt-0 lg:ml-4">
             <button wire:click="sync"
                     wire:loading.class="opacity-75 pointer-events-none"
                     wire:target="sync"
-                    class="bg-blue-800 text-blue-100 px-4 py-2 rounded flex items-center">
+                    type="button"
+                    class="ml-3 shadow-sm inline-flex items-center px-6 py-3 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-teal-600 hover:bg-teal-500 focus:outline-none focus:shadow-outline-teal focus:border-teal-700 active:bg-teal-700 transition duration-150 ease-in-out">
                 <x-icon wire:loading.class="spin"
                         wire:target="sync"
                         icon="sync"
@@ -20,7 +24,8 @@
         </div>
     </div>
 
-    <div class="space-y-4">
+
+    <div class="space-y-4 mt-4">
         @if( count($repositories) == 0 )
             None //todo
         @endif
@@ -32,7 +37,7 @@
                     @if($repo->token === null)
                         <x-icon icon="git-alt" size="8"></x-icon>
                     @elseif($repo->latestBuild === null || $repo->latestBuild->status == \App\Build::STATUS_SUCCESS)
-                        <x-icon icon="check-circle" size="8" class="text-green-500"></x-icon>
+                        <x-icon icon="check-circle" size="8" class="text-teal-500"></x-icon>
                     @elseif($repo->latestBuild->status == \App\Build::STATUS_SEND || $repo->latestBuild->status == \App\Build::STATUS_CREATED)
                         <x-icon icon="hourglass-half" size="8" class="text-orange-500"></x-icon>
                     @elseif($repo->latestBuild->status == \App\Build::STATUS_RUNNING)
@@ -44,7 +49,7 @@
                 <div class="ml-4">
                     <h4 class="font-semibold text-lg flex items-center">
                         {{ $repo->name }}
-                        <span class="ml-4 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                        <span class="ml-4 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-teal-100 text-teal-800">
                             {{ $repo->drone_slug }}
                         </span>
                     </h4>
@@ -73,7 +78,7 @@
                 @if($repo->token === null)
                     <div class="flex-1 text-right">
                         <button wire:click="activate({{ $repo->id }})"
-                                class="uppercase font-semibold text-lg text-blue-800 px-4 py-1 rounded hover:bg-blue-100">
+                                class="uppercase font-semibold text-lg text-teal-800 px-4 py-1 rounded hover:bg-teal-100">
                             Activate
                         </button>
                     </div>

@@ -2,8 +2,10 @@
 
 @section('content')
     <div class="flex w-screen h-screen items-center justify-center">
-        <div class="w-1/3 mx-auto">
-            <h1 class="text-6xl font-thin uppercase text-center mb-4">Droner</h1>
+        <div class="w-1/3 mx-auto relative">
+            <h1 class="text-6xl font-thin uppercase text-center mb-4 absolute w-full transform -translate-y-full py-4">
+                <img src="/img/droner.svg" class="w-4/5 mx-auto" />
+            </h1>
 
             <div class="shadow-lg bg-white p-8 rounded">
                 <form method="POST" action="{{ route('login') }}">
@@ -47,7 +49,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="block bg-blue-700 text-blue-100 rounded w-full py-3 text-lg">
+                    <button type="submit" class="block bg-teal-700 text-teal-100 rounded w-full py-3 text-lg">
                         Login
                     </button>
 

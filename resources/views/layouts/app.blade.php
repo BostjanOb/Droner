@@ -14,18 +14,20 @@
 <body class="bg-gray-50 text-gray-900 font-sans">
     @auth
 
-        {!! file_get_contents(public_path('fa.svg'))  !!}
+        {!! file_get_contents(resource_path('fa.svg'))  !!}
 
-        <nav class="bg-blue-900 text-blue-100">
+        <nav class="bg-teal-900 text-teal-100">
             <div class="container flex h-16 items-center">
 
                 <div class="flex-1">
-                    <a href="/" class="uppercase font-light text-lg">Droner</a>
+                    <a href="/" class="uppercase font-light text-lg">
+                        <img src="/img/droner_w.svg" alt="Droner" class="h-10">
+                    </a>
                 </div>
 
                 <div>
                     <button class="rounded-full">
-                        <img class="h-8 w-8 rounded-full" src="https://www.gravatar.com/avatar/{{ md5(\Auth::user()->email) }}?s=256" alt="" />
+                        <img class="h-10 w-10 rounded-full" src="https://www.gravatar.com/avatar/{{ md5(\Auth::user()->email) }}?s=256" alt="" />
                     </button>
                 </div>
             </div>

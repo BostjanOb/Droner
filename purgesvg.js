@@ -5,7 +5,7 @@ module.exports = {
   svgs: [
     {
       in: './node_modules/@fortawesome/fontawesome-free/sprites/*.svg',
-      out: './public/fa.svg'
+      out: './resources/fa.svg'
     }
 
   ],

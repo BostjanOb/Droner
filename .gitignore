@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 /tests/report
+/resources/fa.svg
 .env
 .env.backup
 .phpunit.result.cache

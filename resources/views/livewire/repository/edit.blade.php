@@ -18,7 +18,7 @@
 
             <button wire:click="save"
                     type="button"
-                    class="ml-3 shadow-sm inline-flex items-center px-6 py-3 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out">
+                    class="ml-3 shadow-sm inline-flex items-center px-6 py-3 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-teal-600 hover:bg-teal-500 focus:outline-none focus:shadow-outline-teal focus:border-teal-700 active:bg-teal-700 transition duration-150 ease-in-out">
                 <x-icon icon="save" size="5" class="mr-2 -ml-1" />
                 Save
             </button>
@@ -69,7 +69,7 @@
                         <label class="inline-flex items-center">
                             <input wire:model="active"
                                    type="checkbox"
-                                   class="form-checkbox h-6 w-6">
+                                   class="form-checkbox h-6 w-6 text-teal-600">
                         </label>
                     </dd>
                 </div>
@@ -96,7 +96,7 @@
                                     <div class="w-0 flex-1 flex items-center">
                                         <x-icon icon="user" size="5" class="text-gray-400 flex-shrink-0" />
                                         <span class="ml-2 flex-1 w-0 truncate">
-                                            {{ $user->name }}
+                                            {{ $user->name }} - {{ $user->email }}
                                         </span>
                                     </div>
                                 </li>
