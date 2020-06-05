@@ -5,6 +5,9 @@
 /vendor
 /tests/report
 /resources/fa.svg
+/public/css/*
+/public/js/*
+/public/mix-manifest.json
 .env
 .env.backup
 .phpunit.result.cache

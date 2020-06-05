@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class RepositoryControllerTest extends TestCase
+class RepositoryController extends TestCase
 {
     use RefreshDatabase;
 
