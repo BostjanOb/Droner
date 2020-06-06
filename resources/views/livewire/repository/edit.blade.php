@@ -19,38 +19,45 @@
             <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                 <div class="px-4 py-5 sm:p-6">
                     <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-                        <label for="username" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
+                        <div class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
                             Primary user
-                        </label>
+                        </div>
                         <div class="mt-1 sm:mt-0 sm:col-span-2 text-sm sm:mt-px sm:pt-2">
                             {{ $repo->owner->name }} - {{ $repo->owner->email }}
                         </div>
                     </div>
 
                     <div class="mt-6 sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="about" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
+                        <div class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
                             Drone slug
-                        </label>
+                        </div>
                         <div class="mt-1 sm:mt-0 sm:col-span-2 text-sm  sm:mt-px sm:pt-2">
                             {{ $repo->drone_slug }}
                         </div>
                     </div>
 
                     <div class="mt-6 sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="about" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
+                        <div class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
                             Git link
-                        </label>
+                        </div>
                         <div class="mt-1 sm:mt-0 sm:col-span-2 text-sm  sm:mt-px sm:pt-2">
                             {{ $repo->git_link }}
                         </div>
                     </div>
 
-                    <div class="mt-6 sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="about" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
+                    <div class="mt-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                        <div class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
                             Token
-                        </label>
-                        <div class="mt-1 sm:mt-0 sm:col-span-2 text-sm  sm:mt-px sm:pt-2">
-                            {{ $repo->token }}
+                        </div>
+                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                            <div class="w-full shadow-sm flex" x-data>
+                                <input value="{{ $repo->token }}" x-ref="token" readonly class="form-input block w-full rounded-none rounded-l-md transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                                <button @click="$refs.token.select();$refs.token.setSelectionRange(0, 99999);document.execCommand('copy');"
+                                        class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-r-md text-gray-700 bg-gray-50 hover:text-gray-500 hover:bg-white focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+                                    <x-icon icon="copy" size="5" class="text-gray-400"/>
+                                    <span class="ml-2 whitespace-no-wrap">Copy to clipboard</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -63,9 +70,7 @@
                                 <div class="sm:col-span-2">
                                     <div class="max-w-lg">
                                         <span wire:model="active"
-                                              x-data="{
-                                                    checked: {{ (int)$repo->active }}
-                                                  }"
+                                              x-data="{ checked: {{ (int)$repo->active }} }"
                                               @click="checked = !checked; $dispatch('input', checked)"
                                               :class="{'bg-teal-600': checked, 'bg-gray-200': !checked }"
                                               role="checkbox"
@@ -94,13 +99,13 @@
                     </div>
 
                     <div class="mt-6 sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="zip" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
+                        <label for="threshold" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
                             Threshold
                         </label>
                         <div class="mt-1 sm:mt-0 sm:col-span-2">
                             <div class="max-w-lg rounded-md shadow-sm sm:max-w-xs">
                                 <input wire:model="threshold"
-                                       id="zip"
+                                       id="threshold"
                                        type="number" step="1" min="0"
                                        class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
                             </div>
@@ -111,6 +116,8 @@
                         <div class="flex justify-end">
                             <span class="inline-flex rounded-md shadow-sm">
                             <button wire:click="save"
+                                    wire:loading.class="opacity-75 pointer-events-none"
+                                    wire:target="save"
                                     type="submit"
                                     class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-teal-600 hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal active:bg-teal-700 transition duration-150 ease-in-out">
                               <x-icon icon="save" size="5" class="mr-2 -ml-1" />

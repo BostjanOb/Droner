@@ -18,8 +18,9 @@ module.exports = {
       'drone'
     ],
     'regular.svg': [
+      'copy',
       'check-circle',
-      'play-circle'
+      'play-circle',
     ],
     'brands.svg': [
       'git-alt'

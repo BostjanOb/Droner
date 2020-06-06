@@ -6,6 +6,10 @@
                     <h1 class="text-3xl font-bold leading-tight text-gray-900">
                         Repositories list
                     </h1>
+                    <button x-data @click="$dispatch('toast', { type: 'success', title: 'From here', timeout: 3000 })"
+                            class="font-bold py-2 px-4 rounded">
+                        Clear Flash
+                    </button>
                 </div>
                 <div class="mt-4 flex md:mt-0 md:ml-4">
                     <span class="shadow-sm rounded-md">

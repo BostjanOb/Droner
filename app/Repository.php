@@ -46,7 +46,7 @@ class Repository extends Model
         abort_unless($this->active, Response::HTTP_FORBIDDEN, 'Repository is not activated');
 
         $lastBuild = $this->builds()->where('status', Build::STATUS_CREATED)->first();
-        abort_if($lastBuild !== null && now() < $lastBuild->start_at, Response::HTTP_TOO_MANY_REQUESTS);
+        abort_if($lastBuild !== null && now() < $lastBuild->start_at, Response::HTTP_TOO_MANY_REQUESTS, 'Another build already queued!');
 
         return $this->builds()->create([
             'status'   => Build::STATUS_CREATED,

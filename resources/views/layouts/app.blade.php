@@ -36,16 +36,7 @@
                                         <img class="h-8 w-8 rounded-full" src="https://www.gravatar.com/avatar/{{ md5(\Auth::user()->email) }}?s=256" alt="" />
                                     </button>
                                 </div>
-                                <!--
-                                  Profile dropdown panel, show/hide based on dropdown state.
 
-                                  Entering: "transition ease-out duration-100"
-                                    From: "transform opacity-0 scale-95"
-                                    To: "transform opacity-100 scale-100"
-                                  Leaving: "transition ease-in duration-75"
-                                    From: "transform opacity-100 scale-100"
-                                    To: "transform opacity-0 scale-95"
-                                -->
                                 <div x-show="isOpen"
                                      @click.away="isOpen = false"
                                      x-transition:enter="transition ease-out duration-100 transform"
@@ -93,6 +84,8 @@
     @endauth
 
     @yield('content')
+
+    <x-toaster />
 
     @livewireScripts
     <script src="{{ mix('js/app.js') }}"></script>

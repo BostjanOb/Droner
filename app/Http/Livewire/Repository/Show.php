@@ -12,17 +12,35 @@ class Show extends Component
 
     public function queue()
     {
-        $this->repo->newBuild();
-        $this->loadBuilds();
+        try {
+            $this->repo->newBuild();
+            $this->loadBuilds();
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('toast', [
+                'title'   => $e->getMessage(),
+                'type'    => 'error',
+                'timeout' => 2000,
+            ]);
+
+            return;
+        }
     }
 
     public function forceSend($id)
     {
-        $this->repo->builds()
-            ->findOrFail($id)
-            ->sendToDrone(true);
+        try {
+            $this->repo->builds()
+                ->findOrFail($id)
+                ->sendToDrone(true);
 
-        $this->loadBuilds();
+            $this->loadBuilds();
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('toast', [
+                'title'   => $e->getMessage(),
+                'type'    => 'success',
+                'timeout' => 2000,
+            ]);
+        }
     }
 
     private function loadBuilds()

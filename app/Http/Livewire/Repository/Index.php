@@ -15,8 +15,13 @@ class Index extends Component
     public function sync()
     {
         SyncRepositories::dispatch(Auth::user());
-
         $this->getRepositories();
+
+        $this->dispatchBrowserEvent('toast', [
+            'title'   => 'Sync completed',
+            'type'    => 'success',
+            'timeout' => 2000,
+        ]);
     }
 
     private function getRepositories()

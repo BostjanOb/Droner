@@ -20,6 +20,11 @@ class Edit extends Component
         ]);
 
         $this->repo->update($data);
+        $this->dispatchBrowserEvent('toast', [
+            'title'   => 'Repository saved',
+            'type'    => 'success',
+            'timeout' => 2000,
+        ]);
     }
 
     public function mount(Repository $repo)
