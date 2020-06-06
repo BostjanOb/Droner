@@ -12,7 +12,7 @@
     @livewireStyles
 </head>
 <body class="antialiased font-sans bg-gray-100">
-    {!! file_get_contents(resource_path('fa.svg'))  !!}
+    {!! file_get_contents(resource_path('icons.svg'))  !!}
     @auth
         <nav class="bg-teal-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

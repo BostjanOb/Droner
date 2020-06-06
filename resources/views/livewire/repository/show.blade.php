@@ -8,7 +8,7 @@
                     </h1>
                     <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap">
                         <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6">
-                            <x-icon icon="id-card" size="5" class="text-gray-400 mr-2" />
+                            <x-icon icon="drone" size="5" class="text-gray-400 mr-2" />
                             <a href="{{ \Illuminate\Support\Str::finish(config('droner.drone_url'), '/') . $repo->drone_slug  }}"
                                target="_blank"
                                class="hover:underline"
@@ -60,10 +60,10 @@
                     <table class="min-w-full">
                         <thead>
                             <tr>
-                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Build #
                                 </th>
-                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Drone status
                                 </th>
                             </tr>

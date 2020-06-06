@@ -4,7 +4,7 @@
 /storage/*.key
 /vendor
 /tests/report
-/resources/fa.svg
+/resources/icons.svg
 /public/css/*
 /public/js/*
 /public/mix-manifest.json

@@ -5,21 +5,30 @@ module.exports = {
   svgs: [
     {
       in: './node_modules/@fortawesome/fontawesome-free/sprites/*.svg',
-      out: './resources/fa.svg'
+      out: './resources/icons.svg'
+    },
+    {
+      in: './resources/customIcons.svg',
+      out: './resources/icons.svg'
     }
 
   ],
   whitelist: {
+    'customIcons.svg': [
+      'drone'
+    ],
     'regular.svg': [
       'check-circle',
-      'play-circle',
-      'id-card'
+      'play-circle'
     ],
     'brands.svg': [
       'git-alt'
     ],
     'solid.svg': [
       'cog',
+      'check',
+      'chevron-left',
+      'chevron-right',
       'hourglass-start',
       'hourglass-half',
       'hourglass-end',
