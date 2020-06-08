@@ -21,13 +21,6 @@ class RepositoryController extends Controller
         );
     }
 
-    public function show(Repository $repository)
-    {
-        $this->authorize('view', $repository);
-
-        return JsonResource::make($repository);
-    }
-
     public function update(Repository $repository, Request $request)
     {
         $this->authorize('update', $repository);

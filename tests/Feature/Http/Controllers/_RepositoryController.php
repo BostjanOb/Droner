@@ -13,13 +13,6 @@ class RepositoryController extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function unauthenticatedUserCannotViewRepositories()
-    {
-        $this->getJson('/api/repositories')
-            ->assertUnauthorized();
-    }
-
-    /** @test */
     public function indexReturnsPaginatedResult()
     {
         $user = factory(User::class)->create();
@@ -39,103 +32,6 @@ class RepositoryController extends TestCase
                     'total',
                 ],
             ]);
-    }
-
-    /** @test */
-    public function notAssignedUserCannotViewRepository()
-    {
-        $repository = factory(Repository::class)->create();
-
-        $this->getJson('/api/repositories/' . $repository->id)
-            ->assertUnauthorized();
-
-        $this->actingAs(factory(User::class)->create())
-            ->getJson('/api/repositories/' . $repository->id)
-            ->assertForbidden();
-    }
-
-    /** @test */
-    public function assignedUserCanViewRepository()
-    {
-        $user = factory(User::class)->create();
-        $repository = factory(Repository::class)->create();
-        $user->repositories()->attach($repository);
-
-        $this->actingAs($user)
-            ->getJson('/api/repositories/' . $repository->id)
-            ->assertOk()
-            ->assertJsonStructure([
-                'data' => ['id', 'name', 'git_link', 'token'],
-            ]);
-    }
-
-    /** @test */
-    public function notAssignedUserCannotUpdateRepository()
-    {
-        $repository = factory(Repository::class)->create();
-
-        $this->putJson('/api/repositories/' . $repository->id, ['active' => true, 'threshold' => 5])
-            ->assertUnauthorized();
-
-        $this->actingAs(factory(User::class)->create())
-            ->putJson('/api/repositories/' . $repository->id, ['active' => true, 'threshold' => 5])
-            ->assertForbidden();
-    }
-
-    /** @test */
-    public function enableRepositoryAssignUserAndGenerateToken()
-    {
-        $user = factory(User::class)->create();
-        $repository = factory(Repository::class)->create(['user_id' => null]);
-        $user->repositories()->attach($repository);
-
-        $response = $this->actingAs($user)
-            ->putJson('/api/repositories/' . $repository->id, ['active' => true, 'threshold' => 5])
-            ->assertOk()
-            ->assertJsonStructure([
-                'data' => [
-                    'id',
-                    'name',
-                    'active',
-                    'threshold',
-                ],
-            ])->decodeResponseJson();
-
-        $this->assertNotNull($response['data']['token']);
-        $this->assertEquals(64, strlen($response['data']['token']));
-
-        $this->assertDatabaseHas('repositories', [
-            'id'        => $repository->id,
-            'user_id'   => $user->id,
-            'active'    => true,
-            'threshold' => 5,
-        ]);
-    }
-
-    /** @test */
-    public function enablingDisabledRepositoryDoesntChangeToken()
-    {
-        $token = Str::random();
-        $user = factory(User::class)->create();
-        $repository = factory(Repository::class)->create([
-            'user_id'   => $user->id,
-            'active'    => true,
-            'threshold' => 5,
-            'token'     => $token,
-        ]);
-        $user->repositories()->attach($repository);
-
-        $this->actingAs($user)
-            ->putJson('/api/repositories/' . $repository->id, ['active' => true, 'threshold' => 15])
-            ->assertOk();
-
-        $this->assertDatabaseHas('repositories', [
-            'id'        => $repository->id,
-            'user_id'   => $user->id,
-            'active'    => true,
-            'threshold' => 15,
-            'token'     => $token,
-        ]);
     }
 
     /** @test */

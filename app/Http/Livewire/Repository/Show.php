@@ -3,18 +3,29 @@
 namespace App\Http\Livewire\Repository;
 
 use App\Repository;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class Show extends Component
 {
+    use AuthorizesRequests;
+
     public $repo;
     public $builds;
 
     public function queue()
     {
+        $this->authorize('view', $this->repo);
+
         try {
             $this->repo->newBuild();
             $this->loadBuilds();
+
+            $this->dispatchBrowserEvent('toast', [
+                'title'   => 'New build successfully queued',
+                'type'    => 'success',
+                'timeout' => 2000,
+            ]);
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('toast', [
                 'title'   => $e->getMessage(),
@@ -34,10 +45,16 @@ class Show extends Component
                 ->sendToDrone(true);
 
             $this->loadBuilds();
+
+            $this->dispatchBrowserEvent('toast', [
+                'title'   => 'Build send to Drone CI',
+                'type'    => 'success',
+                'timeout' => 2000,
+            ]);
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('toast', [
                 'title'   => $e->getMessage(),
-                'type'    => 'success',
+                'type'    => 'error',
                 'timeout' => 2000,
             ]);
         }
@@ -50,6 +67,7 @@ class Show extends Component
 
     public function mount(Repository $repo)
     {
+        $this->authorize('view', $repo);
         $this->repo = $repo;
 
         $this->loadBuilds();
