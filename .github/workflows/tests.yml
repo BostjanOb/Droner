@@ -25,5 +25,10 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-suggest
 
+      - name: Prepare Laravel Application
+        run: |
+            cp .env.example .env
+            php artisan key:generate
+
       - name: Execute tests
         run: vendor/bin/phpunit
